@@ -20,54 +20,44 @@ namespace TrabalhosDoJunior.ConsoleApp
         static string descriçãoChamados = "";
         static int EquipamentosIdChamados = 0;
         static DateTime dataDeAberturaChamados = DateTime.UtcNow;
-        
+
+        static ArrayList listaIdChamados = new ArrayList();
+        static ArrayList listaTitulosChamados = new ArrayList();
+        static ArrayList listaDescricaoChamados = new ArrayList();
+        static ArrayList listaIdDoEquipamentoNosChamados = new ArrayList();
+        static ArrayList listaDataAberturaChamados = new ArrayList();
+
+        static ArrayList listaIdEquipamentos = new ArrayList();
+        static ArrayList listaPrecoEquipamentos = new ArrayList();
+        static ArrayList listaNomeEquipamentos = new ArrayList();
+        static ArrayList listaNumeroDeSerieEquipamentos = new ArrayList();
+        static ArrayList listaDataEquipamentos = new ArrayList();
+        static ArrayList listaFabricanteEquipamentos = new ArrayList();
+
         static void Main(string[] args)
         {
-            ArrayList listaIdEquipamentos, listaPrecoEquipamentos, listaNomeEquipamentos, listaNumeroDeSerieEquipamentos, listaDataEquipamentos, listaFabricanteEquipamentos;
-            CriaListasParaEquipamentos(out listaIdEquipamentos, out listaPrecoEquipamentos, out listaNomeEquipamentos, out listaNumeroDeSerieEquipamentos, out listaDataEquipamentos, out listaFabricanteEquipamentos);
-            ArrayList listaIdChamados, listaTitulosChamados, listaDescricaoChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados;
-            CriaListasParaChamados(out listaIdChamados, out listaTitulosChamados, out listaDescricaoChamados, out listaIdDoEquipamentoNosChamados, out listaDataAberturaChamados);
-            string resposta = "";
+           string resposta = "";
             while (resposta.ToUpper() != "S")
             {
                 resposta = MostraMenuInicial();
                 if (resposta == "1")
                 {
-                    CRUD_Equipamentos(listaIdEquipamentos, listaPrecoEquipamentos, listaNomeEquipamentos, listaNumeroDeSerieEquipamentos, listaDataEquipamentos, listaFabricanteEquipamentos, resposta);
+                    CRUD_Equipamentos(resposta);
                     resposta = "";
                     continue;
                 }
                 if (resposta == "2")
                 {
-                    CRUD_Chamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamentos, listaIdEquipamentos, resposta);
+                    CRUD_Chamados(resposta);
                     resposta = "";
                     continue;
                 }
             }
         }
 
-         static void CriaListasParaChamados(out ArrayList listaIdChamados, out ArrayList listaTitulosChamados, out ArrayList listaDescricaoChamados, out ArrayList listaIdDoEquipamentoNosChamados, out ArrayList listaDataAberturaChamados)
-        {
-            listaIdChamados = new ArrayList();
-            listaTitulosChamados = new ArrayList();
-            listaDescricaoChamados = new ArrayList();
-            listaIdDoEquipamentoNosChamados = new ArrayList();
-            listaDataAberturaChamados = new ArrayList();
-        }
-
-         static void CriaListasParaEquipamentos(out ArrayList listaIdEquipamentos, out ArrayList listaPrecoEquipamentos, out ArrayList listaNomeEquipamentos, out ArrayList listaNumeroDeSerieEquipamentos, out ArrayList listaDataEquipamentos, out ArrayList listaFabricanteEquipamentos)
-        {
-            listaIdEquipamentos = new ArrayList();
-            listaPrecoEquipamentos = new ArrayList();
-            listaNomeEquipamentos = new ArrayList();
-            listaNumeroDeSerieEquipamentos = new ArrayList();
-            listaDataEquipamentos = new ArrayList();
-            listaFabricanteEquipamentos = new ArrayList();
-        }
-
         #region Equipamentos
 
-         static string CRUD_Equipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static string CRUD_Equipamentos(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -76,28 +66,28 @@ namespace TrabalhosDoJunior.ConsoleApp
                 if (resposta == "1")
                 {
                     Console.Clear();
-                    AdicionaEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, resposta);
+                    AdicionaEquipamentos(resposta);
                     resposta = "";
                     continue;
                 }
                 if (resposta == "2")
                 {
                     Console.Clear();
-                    MostraTodosOsEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
+                    MostraTodosOsEquipamentos();
                     resposta = "";
                     continue;
                 }
                 if (resposta == "3")
                 {
                     Console.Clear();
-                    ModificaUmEquipamentoEscolhido(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, resposta);
+                    ModificaUmEquipamentoEscolhido(resposta);
                     resposta = "";
                     continue;
                 }
                 if (resposta == "4")
                 {
                     Console.Clear();
-                    DeletaEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, resposta);
+                    DeletaEquipamentos(resposta);
                     resposta = "";
                     continue;
                 }
@@ -125,24 +115,24 @@ namespace TrabalhosDoJunior.ConsoleApp
             return resposta;
         }
 
-         static void DeletaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void DeletaEquipamentos(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
-                if (listaId.Count == 0)
+                if (listaIdEquipamentos.Count == 0)
                 {
                     MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
-                    MostraTodosOsEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
+                    MostraTodosOsEquipamentos();
                     Console.WriteLine("Id de quem deseja deletar;");
                     int idParaDeletar = Convert.ToInt32(Console.ReadLine());
-                    for (int i = 0; i < listaId.Count; i++)
+                    for (int i = 0; i < listaIdEquipamentos.Count; i++)
                     {
-                        if (listaId[i].Equals(idParaDeletar))
+                        if (listaIdEquipamentos[i].Equals(idParaDeletar))
                         {
-                            RemoveDasListasEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
+                            RemoveDasListasEquipamentos(i);
 
                         }
                         else
@@ -156,32 +146,32 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-         static void RemoveDasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
+         static void RemoveDasListasEquipamentos(int i)
         {
-            listaId.RemoveAt(i);
-            listaNome.RemoveAt(i);
-            listaPreco.RemoveAt(i);
-            listaData.RemoveAt(i);
-            listanumeroDeSerie.RemoveAt(i);
-            listafabricante.RemoveAt(i);
+            listaIdEquipamentos.RemoveAt(i);
+            listaNomeEquipamentos.RemoveAt(i);
+            listaPrecoEquipamentos.RemoveAt(i);
+            listaDataEquipamentos.RemoveAt(i);
+            listaNumeroDeSerieEquipamentos.RemoveAt(i);
+            listaFabricanteEquipamentos.RemoveAt(i);
         }
 
-         static void ModificaUmEquipamentoEscolhido(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void ModificaUmEquipamentoEscolhido( string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
-                if (listaId.Count == 0)
+                if (listaIdEquipamentos.Count == 0)
                 {
                     MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
-                    MostraTodosOsEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
+                    MostraTodosOsEquipamentos();
                     Console.WriteLine("Id de quem deseja modificar;");
                     int idParaModificar = Convert.ToInt32(Console.ReadLine());
-                    for (int i = 0; i < listaId.Count; i++)
+                    for (int i = 0; i < listaIdEquipamentos.Count; i++)
                     {
-                        if (listaId[i].Equals(idParaModificar))
+                        if (listaIdEquipamentos[i].Equals(idParaModificar))
                         {
                             PegadadosDoUsuarioEquipamentos();
                             if (nomeEquipamento.Length < 6)
@@ -189,7 +179,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                                 MensagemDeErro("O Nome deve ter no mínimo 6 caracters");
                                 continue;
                             }
-                            ModificaAsListasEquipamentos(listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
+                            ModificaAsListasEquipamentos(i);
                             MostraSucessoAoUsuarioEquipamentos("Modificado com Sucesso!");
                         }
                         else
@@ -204,16 +194,16 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-         static void ModificaAsListasEquipamentos(ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
+         static void ModificaAsListasEquipamentos(int i)
         {
-            listaNome[i] = nomeEquipamento;
-            listaPreco[i] = precoEquipamento;
-            listaData[i] = dataFabricacaoEquipamento;
-            listanumeroDeSerie[i] = numeroDeSerieEquipamento;
-            listafabricante[i] = fabricanteEquipamento;
+            listaNomeEquipamentos[i] = nomeEquipamento;
+            listaPrecoEquipamentos[i] = precoEquipamento;
+            listaDataEquipamentos[i] = dataFabricacaoEquipamento;
+            listaNumeroDeSerieEquipamentos[i] = numeroDeSerieEquipamento;
+            listaFabricanteEquipamentos[i] = fabricanteEquipamento;
         }
 
-         static void AdicionaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void AdicionaEquipamentos(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -223,7 +213,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                     MensagemDeErro("O Nome deve ter no mínimo 6 caracters");
                     continue;
                 }
-                AdicionaNasListasEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
+                AdicionaNasListasEquipamentos();
                 MostraSucessoAoUsuarioEquipamentos("Adicionado com Sucesso!");
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
@@ -237,9 +227,9 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ResetColor();
         }
 
-         static void MostraTodosOsEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
+         static void MostraTodosOsEquipamentos()
         {
-            if (listaId.Count == 0)
+            if (listaIdEquipamentos.Count == 0)
             {
                 MensagemDeErro("Nao existem valores na lista");
             }
@@ -247,10 +237,10 @@ namespace TrabalhosDoJunior.ConsoleApp
             {
                 Console.WriteLine(" Id  | Nome do Equipamento  | Preço do Equipamento: | Data da fabricação | Número de série | Fabricante do Equipamento");
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
-                for (int i = 0; i < listaId.Count; i++)
+                for (int i = 0; i < listaIdEquipamentos.Count; i++)
                 {
-                    DateTime dataModificada = (DateTime)listaData[i];                 
-                    Console.WriteLine(" {0,-3} | {1,-20} | {2,-21} |  {3,-17} |  {4,-14} | {5,-20}", listaId[i], listaNome[i], listaPreco[i], dataFabricacaoEquipamento.ToString("dd/MM/yyyy"), listanumeroDeSerie[i], listafabricante[i]);
+                    DateTime dataModificada = (DateTime)listaDataEquipamentos[i];                 
+                    Console.WriteLine(" {0,-3} | {1,-20} | {2,-21} |  {3,-17} |  {4,-14} | {5,-20}", listaIdEquipamentos[i], listaNomeEquipamentos[i], listaPrecoEquipamentos[i], dataFabricacaoEquipamento.ToString("dd/MM/yyyy"), listaNumeroDeSerieEquipamentos[i], listaFabricanteEquipamentos[i]);
                 }
             }
             Console.ReadKey();
@@ -266,15 +256,15 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.WriteLine("____________________________________________________________________________");
         }
 
-         static void AdicionaNasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
+         static void AdicionaNasListasEquipamentos()
         {
             idEquipamentos++;
-            listaId.Add(idEquipamentos);
-            listaNome.Add(nomeEquipamento);
-            listaPreco.Add(precoEquipamento);
-            listaData.Add(dataFabricacaoEquipamento);
-            listanumeroDeSerie.Add(numeroDeSerieEquipamento);
-            listafabricante.Add(fabricanteEquipamento);
+            listaIdEquipamentos.Add(idEquipamentos);
+            listaNomeEquipamentos.Add(nomeEquipamento);
+            listaPrecoEquipamentos.Add(precoEquipamento);
+            listaDataEquipamentos.Add(dataFabricacaoEquipamento);
+            listaNumeroDeSerieEquipamentos.Add(numeroDeSerieEquipamento);
+            listaFabricanteEquipamentos.Add(fabricanteEquipamento);
         }
 
          static void PegadadosDoUsuarioEquipamentos()
@@ -306,18 +296,18 @@ namespace TrabalhosDoJunior.ConsoleApp
             dataDeAberturaChamados = Convert.ToDateTime(Console.ReadLine());
         }
 
-         static void AdicinaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados , ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento, string resposta)
+         static void AdicinaChamados(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
                 PegadadosDoUsuarioChamados();
-                AdicionaNasListasChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados);
-                MostraSucessoAoUsuarioChamados("Adicionado com Sucesso!", listaNomeEquipamento, listaIdEquipamentos);
+                AdicionaNasListasChamados();
+                MostraSucessoAoUsuarioChamados("Adicionado com Sucesso!");
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
             }
         }
-         static void AdicionaNasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados)
+         static void AdicionaNasListasChamados()
         {
             idChamados++;                               
             listaIdChamados.Add(idChamados);
@@ -326,14 +316,14 @@ namespace TrabalhosDoJunior.ConsoleApp
             listaDataAberturaChamados.Add(dataDeAberturaChamados);
             listaDescricaoChamados.Add(descriçãoChamados);
         }
-         static void MostraSucessoAoUsuarioChamados(string mensagem, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento)
+         static void MostraSucessoAoUsuarioChamados(string mensagem)
         {
             string nomeEquipamentoDoChamado = "";
             for (int i = 0; i < listaIdEquipamentos.Count; i++)
             {
                 if (listaIdEquipamentos[i].Equals(EquipamentosIdChamados))
                 {
-                    nomeEquipamentoDoChamado = (string)listaNomeEquipamento[i];
+                    nomeEquipamentoDoChamado = (string)listaNomeEquipamentos[i];
                 }
             }
             Console.WriteLine("____________________________________________________________________________");
@@ -343,7 +333,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ResetColor();
             Console.WriteLine("____________________________________________________________________________");
         }
-         static void MostraTodosOsChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados,ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, ArrayList listaIdDoEquipamentoNosChamados)
+         static void MostraTodosOsChamados()
         {
             string nomeEquipamentoDoChamado = "";
             if (listaIdChamados.Count == 0)
@@ -360,7 +350,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                     {
                         if (listaIdEquipamentos[j].Equals(listaIdDoEquipamentoNosChamados[i]))
                         {
-                            nomeEquipamentoDoChamado = (string)listaNomeEquipamento[j];
+                            nomeEquipamentoDoChamado = (string)listaNomeEquipamentos[j];
                         }
                     }
                     TimeSpan diasAbertos = new TimeSpan();
@@ -374,7 +364,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ReadKey();
         }
 
-         static void ModificaUmChamadoEscolhido(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
+         static void ModificaUmChamadoEscolhido(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -384,7 +374,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
-                    MostraTodosOsChamados(listaIdChamados, listaTitulosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, listaIdDoEquipamentoNosChamados);
+                    MostraTodosOsChamados();
                     Console.WriteLine("Id de quem deseja modificar;");
                     int idParaModificar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaIdChamados.Count; i++)
@@ -392,8 +382,8 @@ namespace TrabalhosDoJunior.ConsoleApp
                         if (listaIdChamados[i].Equals(idParaModificar))
                         {
                             PegadadosDoUsuarioChamados();
-                            ModificaAsListasChamados(listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
-                            MostraSucessoAoUsuarioChamados("Modificado com Sucesso!", listaIdEquipamentos, listaNomeEquipamento);
+                            ModificaAsListasChamados(i);
+                            MostraSucessoAoUsuarioChamados("Modificado com Sucesso!");
                         }
                         else
                         {
@@ -405,14 +395,14 @@ namespace TrabalhosDoJunior.ConsoleApp
                 resposta = Console.ReadLine();
             }
         }
-         static void ModificaAsListasChamados(ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
+         static void ModificaAsListasChamados(int i)
         {
             listaTitulosChamados[i] = títuloChamados;
             listaIdDoEquipamentoNosChamados[i] = EquipamentosIdChamados;
             listaDataAberturaChamados[i] = dataDeAberturaChamados;
             listaDescricaoChamados[i] = descriçãoChamados;
         }
-         static void DeletaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
+         static void DeletaChamados(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -422,14 +412,14 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
-                    MostraTodosOsChamados(listaIdChamados, listaTitulosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, listaIdDoEquipamentoNosChamados);
+                    MostraTodosOsChamados();
                     Console.WriteLine("Id de quem deseja deletar;");
                     int idParaDeletar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaIdChamados.Count; i++)
                     {
                         if (listaIdChamados[i].Equals(idParaDeletar))
                         {
-                            RemoveDasListasChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
+                            RemoveDasListasChamados(i);
                         }
                         else
                         {
@@ -444,7 +434,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-         static void RemoveDasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
+         static void RemoveDasListasChamados(int i)
         {
             listaIdChamados.RemoveAt(i);
             listaTitulosChamados.RemoveAt(i);
@@ -460,7 +450,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             resposta = Console.ReadLine();
             return resposta;
         }
-         static string CRUD_Chamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
+         static string CRUD_Chamados(string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -469,28 +459,28 @@ namespace TrabalhosDoJunior.ConsoleApp
                 if (resposta == "1")
                 {
                     Console.Clear();
-                    AdicinaChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, resposta); 
+                    AdicinaChamados(resposta); 
                     resposta = "";
                     continue;
                 }
                 if (resposta == "2")
                 {
                     Console.Clear();
-                    MostraTodosOsChamados(listaIdChamados, listaTitulosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, listaIdDoEquipamentoNosChamados);
+                    MostraTodosOsChamados();
                     resposta = "";
                     continue;
                 }
                 if (resposta == "3")
                 {
                     Console.Clear();
-                    ModificaUmChamadoEscolhido(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, resposta);
+                    ModificaUmChamadoEscolhido(resposta);
                     resposta = "";
                     continue;
                 }
                 if (resposta == "4")
                 {
                     Console.Clear();
-                    DeletaChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, resposta);
+                    DeletaChamados(resposta);
                     resposta = "";
                     continue;
                 }
