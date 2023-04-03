@@ -233,12 +233,14 @@ namespace TrabalhosDoJunior.ConsoleApp
                 Console.WriteLine("Nao existem valores na lista");
             }
             else
-            for (int i = 0; i < listaId.Count; i++)
             {
-                DateTime dataModificada = (DateTime)listaData[i];
-                Console.WriteLine("____________________________________________________________________________");
-                Console.WriteLine($" Id : {listaId[i]}\n Nome do Equipamento: {listaNome[i]}\n Preço do Equipamento: {listaPreco[i]}\n Data da fabricação: {dataFabricacaoEquipamento.ToString("dd/MM/yyyy")}\n Número de série: {listanumeroDeSerie[i]}\n Fabricante do Equipamento: {listafabricante[i]}");
-                Console.WriteLine("____________________________________________________________________________");
+                Console.WriteLine(" Id  | Nome do Equipamento  | Preço do Equipamento: | Data da fabricação | Número de série | Fabricante do Equipamento");
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                for (int i = 0; i < listaId.Count; i++)
+                {
+                    DateTime dataModificada = (DateTime)listaData[i];                 
+                    Console.WriteLine(" {0,-3} | {1,-20} | {2,-21} |  {3,-17} |  {4,-14} | {5,-20}", listaId[i], listaNome[i], listaPreco[i], dataFabricacaoEquipamento.ToString("dd/MM/yyyy"), listanumeroDeSerie[i], listafabricante[i]);
+                }
             }
             Console.ReadKey();
         }
@@ -338,9 +340,12 @@ namespace TrabalhosDoJunior.ConsoleApp
                 Console.WriteLine("Nao existem valores na lista");
             }
             else
-             for (int i = 0; i < listaIdChamados.Count; i++)
-               {
-                  for (int j = 0; j < listaIdEquipamentos.Count; j++)
+            {
+                Console.WriteLine(" Id  | Titulo     | Equipamento           | Data de Abertura | Descrição             | Dias Abertos");
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                for (int i = 0; i < listaIdChamados.Count; i++)
+                {
+                    for (int j = 0; j < listaIdEquipamentos.Count; j++)
                     {
                         if (listaIdEquipamentos[j].Equals(listaIdDoEquipamentoNosChamados[i]))
                         {
@@ -350,10 +355,10 @@ namespace TrabalhosDoJunior.ConsoleApp
                     TimeSpan diasAbertos = new TimeSpan();
                     DateTime dataModificada = (DateTime)listaDataAberturaChamados[i];
                     diasAbertos = DateTime.UtcNow - dataModificada;
-                    Console.WriteLine("____________________________________________________________________________");
-                    Console.WriteLine($"Id: {listaIdChamados[i]} | Titulo: {listaTitulosChamados[i]} | Equipamento:  {nomeEquipamentoDoChamado} | Data de Abertura: {dataModificada.ToString("dd / MM / yyyy")} | Descrição:  {listaDescricaoChamados[i]} | Dias Abertos: {diasAbertos.Days} ");
-                    Console.WriteLine("____________________________________________________________________________");
+                    Console.WriteLine(" {0,-3} | {1,-10} | {2,-21} |  {3,-15} |  {4,-20} | {5,-20}", listaIdChamados[i] , listaTitulosChamados[i] ,nomeEquipamentoDoChamado, dataModificada.ToString("dd / MM / yyyy") , listaDescricaoChamados[i], diasAbertos.Days); 
                 }
+
+            }
             
             Console.ReadKey();
         }
