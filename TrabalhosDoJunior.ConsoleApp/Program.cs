@@ -55,10 +55,19 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
+        static string MostraMenuInicial()
+        {
+            string resposta;
+            Console.WriteLine("Oque deseja fazer: ");
+            Console.WriteLine(" 1- Equipamentos\n 2- Chamados\n S para Sair");
+            resposta = Console.ReadLine();
+            return resposta;
+        }
+
         #region Equipamentos
 
-         static string CRUD_Equipamentos(string resposta)
-        {
+        static string CRUD_Equipamentos(string resposta)
+         {
             while (resposta.ToUpper() != "S")
             {
                 Console.Clear();
@@ -96,16 +105,7 @@ namespace TrabalhosDoJunior.ConsoleApp
 
             return resposta;
         }
-
-         static string MostraMenuInicial()
-        {
-            string resposta;
-            Console.WriteLine("Oque deseja fazer: ");
-            Console.WriteLine(" 1- Equipamentos\n 2- Chamados\n S para Sair");
-            resposta = Console.ReadLine();
-            return resposta;
-        }
-
+      
          static string MostraMenuEquipamentos()
         {
             string resposta;
