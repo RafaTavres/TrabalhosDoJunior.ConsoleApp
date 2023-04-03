@@ -46,7 +46,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-        private static void CriaListasParaChamados(out ArrayList listaIdChamados, out ArrayList listaTitulosChamados, out ArrayList listaDescricaoChamados, out ArrayList listaIdDoEquipamentoNosChamados, out ArrayList listaDataAberturaChamados)
+         static void CriaListasParaChamados(out ArrayList listaIdChamados, out ArrayList listaTitulosChamados, out ArrayList listaDescricaoChamados, out ArrayList listaIdDoEquipamentoNosChamados, out ArrayList listaDataAberturaChamados)
         {
             listaIdChamados = new ArrayList();
             listaTitulosChamados = new ArrayList();
@@ -55,7 +55,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listaDataAberturaChamados = new ArrayList();
         }
 
-        private static void CriaListasParaEquipamentos(out ArrayList listaIdEquipamentos, out ArrayList listaPrecoEquipamentos, out ArrayList listaNomeEquipamentos, out ArrayList listaNumeroDeSerieEquipamentos, out ArrayList listaDataEquipamentos, out ArrayList listaFabricanteEquipamentos)
+         static void CriaListasParaEquipamentos(out ArrayList listaIdEquipamentos, out ArrayList listaPrecoEquipamentos, out ArrayList listaNomeEquipamentos, out ArrayList listaNumeroDeSerieEquipamentos, out ArrayList listaDataEquipamentos, out ArrayList listaFabricanteEquipamentos)
         {
             listaIdEquipamentos = new ArrayList();
             listaPrecoEquipamentos = new ArrayList();
@@ -67,7 +67,7 @@ namespace TrabalhosDoJunior.ConsoleApp
 
         #region Equipamentos
 
-        private static string CRUD_Equipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static string CRUD_Equipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -76,7 +76,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 if (resposta == "1")
                 {
                     Console.Clear();
-                    AdicinaEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, resposta);
+                    AdicionaEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, resposta);
                     resposta = "";
                     continue;
                 }
@@ -107,7 +107,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             return resposta;
         }
 
-        private static string MostraMenuInicial()
+         static string MostraMenuInicial()
         {
             string resposta;
             Console.WriteLine("Oque deseja fazer: ");
@@ -116,7 +116,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             return resposta;
         }
 
-        private static string MostraMenuEquipamentos()
+         static string MostraMenuEquipamentos()
         {
             string resposta;
             Console.WriteLine("Menu Equipamentos: ");
@@ -125,13 +125,13 @@ namespace TrabalhosDoJunior.ConsoleApp
             return resposta;
         }
 
-        private static void DeletaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void DeletaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
                 if (listaId.Count == 0)
                 {
-                    Console.WriteLine("Nao existem valores na lista");
+                    MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
@@ -144,6 +144,10 @@ namespace TrabalhosDoJunior.ConsoleApp
                             RemoveDasListasEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
 
                         }
+                        else
+                        {
+                            MensagemDeErro("Id Inválido");
+                        }
                     }
                 }
                 Console.Write("Sair: ");
@@ -151,7 +155,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-        private static void RemoveDasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
+         static void RemoveDasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
         {
             listaId.RemoveAt(i);
             listaNome.RemoveAt(i);
@@ -161,13 +165,13 @@ namespace TrabalhosDoJunior.ConsoleApp
             listafabricante.RemoveAt(i);
         }
 
-        private static void ModificaUmEquipamentoEscolhido(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void ModificaUmEquipamentoEscolhido(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
                 if (listaId.Count == 0)
                 {
-                    Console.WriteLine("Nao existem valores na lista");
+                    MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
@@ -180,11 +184,16 @@ namespace TrabalhosDoJunior.ConsoleApp
                             PegadadosDoUsuarioEquipamentos();
                             if (nomeEquipamento.Length < 6)
                             {
-                                Console.WriteLine("Errochan");
+                                MensagemDeErro("O Nome deve ter no mínimo 6 caracters");
                                 continue;
                             }
                             ModificaAsListasEquipamentos(listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
                             MostraSucessoAoUsuarioEquipamentos("Modificado com Sucesso!");
+                        }
+                        else
+                        {
+                            MensagemDeErro("Id Inválido");
+                            break;
                         }
                     }
                 }
@@ -193,7 +202,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-        private static void ModificaAsListasEquipamentos(ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
+         static void ModificaAsListasEquipamentos(ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, int i)
         {
             listaNome[i] = nomeEquipamento;
             listaPreco[i] = precoEquipamento;
@@ -202,7 +211,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listafabricante[i] = fabricanteEquipamento;
         }
 
-        private static void AdicinaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
+         static void AdicionaEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -219,18 +228,18 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
         }
 
-        private static void MensagemDeErro(string mensagem)
+         static void MensagemDeErro(string mensagem)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mensagem);
             Console.ResetColor();
         }
 
-        private static void MostraTodosOsEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
+         static void MostraTodosOsEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
         {
             if (listaId.Count == 0)
             {
-                Console.WriteLine("Nao existem valores na lista");
+                MensagemDeErro("Nao existem valores na lista");
             }
             else
             {
@@ -245,7 +254,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ReadKey();
         }
 
-        private static void MostraSucessoAoUsuarioEquipamentos(string mensagem)
+         static void MostraSucessoAoUsuarioEquipamentos(string mensagem)
         {
             Console.WriteLine("____________________________________________________________________________");
             Console.WriteLine($" Id : {idEquipamentos}\n Nome do Equipamento: {nomeEquipamento}\n Preço do Equipamento: {precoEquipamento}\n Data da fabricação: {dataFabricacaoEquipamento.ToString("dd/MM/yyyy")}\n Número de série: {numeroDeSerieEquipamento}\n Fabricante do Equipamento: {fabricanteEquipamento}");
@@ -255,7 +264,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.WriteLine("____________________________________________________________________________");
         }
 
-        private static void AdicionaNasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
+         static void AdicionaNasListasEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
         {
             idEquipamentos++;
             listaId.Add(idEquipamentos);
@@ -266,7 +275,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listafabricante.Add(fabricanteEquipamento);
         }
 
-        private static void PegadadosDoUsuarioEquipamentos()
+         static void PegadadosDoUsuarioEquipamentos()
         {
             Console.Write("Nome do Equipamento: ");
             nomeEquipamento = Console.ReadLine();
@@ -283,7 +292,7 @@ namespace TrabalhosDoJunior.ConsoleApp
         #endregion
 
         #region Chamados
-        private static void PegadadosDoUsuarioChamados()
+         static void PegadadosDoUsuarioChamados()
         {
             Console.Write("Titulo do Chamado: ");
             títuloChamados = Console.ReadLine();
@@ -295,7 +304,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             dataDeAberturaChamados = Convert.ToDateTime(Console.ReadLine());
         }
 
-        private static void AdicinaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados , ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento, string resposta)
+         static void AdicinaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados , ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -306,7 +315,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 resposta = Console.ReadLine();
             }
         }
-        private static void AdicionaNasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados)
+         static void AdicionaNasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados)
         {
             idChamados++;                               
             listaIdChamados.Add(idChamados);
@@ -315,7 +324,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listaDataAberturaChamados.Add(dataDeAberturaChamados);
             listaDescricaoChamados.Add(descriçãoChamados);
         }
-        private static void MostraSucessoAoUsuarioChamados(string mensagem, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento)
+         static void MostraSucessoAoUsuarioChamados(string mensagem, ArrayList listaIdEquipamentos, ArrayList listaNomeEquipamento)
         {
             string nomeEquipamentoDoChamado = "";
             for (int i = 0; i < listaIdEquipamentos.Count; i++)
@@ -332,12 +341,12 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ResetColor();
             Console.WriteLine("____________________________________________________________________________");
         }
-        private static void MostraTodosOsChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados,ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, ArrayList listaIdDoEquipamentoNosChamados)
+         static void MostraTodosOsChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados,ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, ArrayList listaIdDoEquipamentoNosChamados)
         {
             string nomeEquipamentoDoChamado = "";
             if (listaIdChamados.Count == 0)
             {
-                Console.WriteLine("Nao existem valores na lista");
+                MensagemDeErro("Nao existem valores na lista");
             }
             else
             {
@@ -363,13 +372,13 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.ReadKey();
         }
 
-        private static void ModificaUmChamadoEscolhido(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
+         static void ModificaUmChamadoEscolhido(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
                 if (listaIdChamados.Count == 0)
                 {
-                    Console.WriteLine("Nao existem valores na lista");
+                    MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
@@ -383,26 +392,30 @@ namespace TrabalhosDoJunior.ConsoleApp
                             ModificaAsListasChamados(listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
                             MostraSucessoAoUsuarioChamados("Modificado com Sucesso!", listaIdEquipamentos, listaNomeEquipamento);
                         }
+                        else
+                        {
+                            MensagemDeErro("Id Inválido");
+                        }
                     }                  
                 }
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
             }
         }
-        private static void ModificaAsListasChamados(ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
+         static void ModificaAsListasChamados(ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
         {
             listaTitulosChamados[i] = títuloChamados;
             listaIdDoEquipamentoNosChamados[i] = EquipamentosIdChamados;
             listaDataAberturaChamados[i] = dataDeAberturaChamados;
             listaDescricaoChamados[i] = descriçãoChamados;
         }
-        private static void DeletaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, string resposta)
+         static void DeletaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
                 if (listaIdChamados.Count == 0)
                 {
-                    Console.WriteLine("Nao existem valores na lista");
+                    MensagemDeErro("Nao existem valores na lista");
                 }
                 else
                 {
@@ -414,14 +427,20 @@ namespace TrabalhosDoJunior.ConsoleApp
                         {
                             RemoveDasListasChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
                         }
+                        else
+                        {
+                            MensagemDeErro("Id Inválido");
+                        }
                     }
+                    
+                               
                 }              
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
             }
         }
 
-        private static void RemoveDasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
+         static void RemoveDasListasChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, int i)
         {
             listaIdChamados.RemoveAt(i);
             listaTitulosChamados.RemoveAt(i);
@@ -429,7 +448,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listaDataAberturaChamados.RemoveAt(i);
             listaDescricaoChamados.RemoveAt(i);
         }
-        private static string MostraMenuChamados()
+         static string MostraMenuChamados()
         {
             string resposta;
             Console.WriteLine("Menu Chamados: ");
@@ -437,7 +456,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             resposta = Console.ReadLine();
             return resposta;
         }
-        private static string CRUD_Chamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
+         static string CRUD_Chamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
