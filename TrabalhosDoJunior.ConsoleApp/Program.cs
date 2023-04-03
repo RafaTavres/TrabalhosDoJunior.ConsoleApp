@@ -129,14 +129,21 @@ namespace TrabalhosDoJunior.ConsoleApp
         {
             while (resposta.ToUpper() != "S")
             {
-                Console.WriteLine("Id de quem deseja deletar;");
-                int idParaDeletar = Convert.ToInt32(Console.ReadLine());
-                for (int i = 0; i < listaId.Count; i++)
+                if (listaId.Count == 0)
                 {
-                    if (listaId[i].Equals(idParaDeletar))
+                    Console.WriteLine("Nao existem valores na lista");
+                }
+                else
+                {
+                    Console.WriteLine("Id de quem deseja deletar;");
+                    int idParaDeletar = Convert.ToInt32(Console.ReadLine());
+                    for (int i = 0; i < listaId.Count; i++)
                     {
-                        RemoveDasListasEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
+                        if (listaId[i].Equals(idParaDeletar))
+                        {
+                            RemoveDasListasEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
 
+                        }
                     }
                 }
                 Console.Write("Sair: ");
@@ -158,20 +165,27 @@ namespace TrabalhosDoJunior.ConsoleApp
         {
             while (resposta.ToUpper() != "S")
             {
-                Console.WriteLine("Id de quem deseja modificar;");
-                int idParaModificar = Convert.ToInt32(Console.ReadLine());
-                for (int i = 0; i < listaId.Count; i++)
+                if (listaId.Count == 0)
                 {
-                    if (listaId[i].Equals(idParaModificar))
+                    Console.WriteLine("Nao existem valores na lista");
+                }
+                else
+                {
+                    Console.WriteLine("Id de quem deseja modificar;");
+                    int idParaModificar = Convert.ToInt32(Console.ReadLine());
+                    for (int i = 0; i < listaId.Count; i++)
                     {
-                        PegadadosDoUsuarioEquipamentos();
-                        if (nomeEquipamento.Length < 6)
+                        if (listaId[i].Equals(idParaModificar))
                         {
-                            Console.WriteLine("Errochan");
-                            continue;
+                            PegadadosDoUsuarioEquipamentos();
+                            if (nomeEquipamento.Length < 6)
+                            {
+                                Console.WriteLine("Errochan");
+                                continue;
+                            }
+                            ModificaAsListasEquipamentos(listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
+                            MostraSucessoAoUsuarioEquipamentos("Modificado com Sucesso!");
                         }
-                        ModificaAsListasEquipamentos(listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante, i);
-                        MostraSucessoAoUsuarioEquipamentos("Modificado com Sucesso!");
                     }
                 }
                 Console.Write("Sair: ");
@@ -214,7 +228,11 @@ namespace TrabalhosDoJunior.ConsoleApp
 
         private static void MostraTodosOsEquipamentos(ArrayList listaId, ArrayList listaPreco, ArrayList listaNome, ArrayList listanumeroDeSerie, ArrayList listaData, ArrayList listafabricante)
         {
-            
+            if (listaId.Count == 0)
+            {
+                Console.WriteLine("Nao existem valores na lista");
+            }
+            else
             for (int i = 0; i < listaId.Count; i++)
             {
                 DateTime dataModificada = (DateTime)listaData[i];
@@ -315,39 +333,52 @@ namespace TrabalhosDoJunior.ConsoleApp
         private static void MostraTodosOsChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados,ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, ArrayList listaIdDoEquipamentoNosChamados)
         {
             string nomeEquipamentoDoChamado = "";
-              
-            for (int i = 0; i < listaIdChamados.Count; i++)
+            if (listaIdChamados.Count == 0)
             {
-                for (int j = 0; j < listaIdEquipamentos.Count; j++)
-                {
-                    if (listaIdEquipamentos[j].Equals(listaIdDoEquipamentoNosChamados[i]))
-                    {
-                        nomeEquipamentoDoChamado = (string)listaNomeEquipamento[j];
-                    }
-                }
-                TimeSpan diasAbertos = new TimeSpan();
-                DateTime dataModificada = (DateTime)listaDataAberturaChamados[i];
-                diasAbertos = DateTime.UtcNow - dataModificada;
-                Console.WriteLine("____________________________________________________________________________");
-                Console.WriteLine($"Id: {listaIdChamados[i]} | Titulo: {listaTitulosChamados[i]} | Equipamento:  {nomeEquipamentoDoChamado} | Data de Abertura: {dataModificada.ToString("dd / MM / yyyy")} | Descrição:  {listaDescricaoChamados[i]} | Dias Abertos: {diasAbertos.Days} ");
-                Console.WriteLine("____________________________________________________________________________");
+                Console.WriteLine("Nao existem valores na lista");
             }
+            else
+             for (int i = 0; i < listaIdChamados.Count; i++)
+               {
+                  for (int j = 0; j < listaIdEquipamentos.Count; j++)
+                    {
+                        if (listaIdEquipamentos[j].Equals(listaIdDoEquipamentoNosChamados[i]))
+                        {
+                            nomeEquipamentoDoChamado = (string)listaNomeEquipamento[j];
+                        }
+                    }
+                    TimeSpan diasAbertos = new TimeSpan();
+                    DateTime dataModificada = (DateTime)listaDataAberturaChamados[i];
+                    diasAbertos = DateTime.UtcNow - dataModificada;
+                    Console.WriteLine("____________________________________________________________________________");
+                    Console.WriteLine($"Id: {listaIdChamados[i]} | Titulo: {listaTitulosChamados[i]} | Equipamento:  {nomeEquipamentoDoChamado} | Data de Abertura: {dataModificada.ToString("dd / MM / yyyy")} | Descrição:  {listaDescricaoChamados[i]} | Dias Abertos: {diasAbertos.Days} ");
+                    Console.WriteLine("____________________________________________________________________________");
+                }
+            
+            Console.ReadKey();
         }
 
         private static void ModificaUmChamadoEscolhido(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
-                Console.WriteLine("Id de quem deseja modificar;");
-                int idParaModificar = Convert.ToInt32(Console.ReadLine());
-                for (int i = 0; i < listaIdChamados.Count; i++)
+                if (listaIdChamados.Count == 0)
                 {
-                    if (listaIdChamados[i].Equals(idParaModificar))
+                    Console.WriteLine("Nao existem valores na lista");
+                }
+                else
+                {
+                    Console.WriteLine("Id de quem deseja modificar;");
+                    int idParaModificar = Convert.ToInt32(Console.ReadLine());
+                    for (int i = 0; i < listaIdChamados.Count; i++)
                     {
-                        PegadadosDoUsuarioChamados();
-                        ModificaAsListasChamados(listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
-                        MostraSucessoAoUsuarioChamados("Modificado com Sucesso!", listaIdEquipamentos, listaNomeEquipamento);
-                    }
+                        if (listaIdChamados[i].Equals(idParaModificar))
+                        {
+                            PegadadosDoUsuarioChamados();
+                            ModificaAsListasChamados(listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
+                            MostraSucessoAoUsuarioChamados("Modificado com Sucesso!", listaIdEquipamentos, listaNomeEquipamento);
+                        }
+                    }                  
                 }
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
@@ -364,15 +395,22 @@ namespace TrabalhosDoJunior.ConsoleApp
         {
             while (resposta.ToUpper() != "S")
             {
-                Console.WriteLine("Id de quem deseja deletar;");
-                int idParaDeletar = Convert.ToInt32(Console.ReadLine());
-                for (int i = 0; i < listaIdChamados.Count; i++)
+                if (listaIdChamados.Count == 0)
                 {
-                    if (listaIdChamados[i].Equals(idParaDeletar))
-                    {
-                        RemoveDasListasChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
-                    }
+                    Console.WriteLine("Nao existem valores na lista");
                 }
+                else
+                {
+                    Console.WriteLine("Id de quem deseja deletar;");
+                    int idParaDeletar = Convert.ToInt32(Console.ReadLine());
+                    for (int i = 0; i < listaIdChamados.Count; i++)
+                    {
+                        if (listaIdChamados[i].Equals(idParaDeletar))
+                        {
+                            RemoveDasListasChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, i);
+                        }
+                    }
+                }              
                 Console.Write("Sair: ");
                 resposta = Console.ReadLine();
             }
