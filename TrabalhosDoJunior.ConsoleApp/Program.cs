@@ -135,6 +135,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
+                    MostraTodosOsEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
                     Console.WriteLine("Id de quem deseja deletar;");
                     int idParaDeletar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaId.Count; i++)
@@ -175,6 +176,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
+                    MostraTodosOsEquipamentos(listaId, listaPreco, listaNome, listanumeroDeSerie, listaData, listafabricante);
                     Console.WriteLine("Id de quem deseja modificar;");
                     int idParaModificar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaId.Count; i++)
@@ -382,6 +384,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
+                    MostraTodosOsChamados(listaIdChamados, listaTitulosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, listaIdDoEquipamentoNosChamados);
                     Console.WriteLine("Id de quem deseja modificar;");
                     int idParaModificar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaIdChamados.Count; i++)
@@ -409,7 +412,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             listaDataAberturaChamados[i] = dataDeAberturaChamados;
             listaDescricaoChamados[i] = descriçãoChamados;
         }
-         static void DeletaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, string resposta)
+         static void DeletaChamados(ArrayList listaIdChamados, ArrayList listaTitulosChamados, ArrayList listaIdDoEquipamentoNosChamados, ArrayList listaDataAberturaChamados, ArrayList listaDescricaoChamados, ArrayList listaNomeEquipamento, ArrayList listaIdEquipamentos, string resposta)
         {
             while (resposta.ToUpper() != "S")
             {
@@ -419,6 +422,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 }
                 else
                 {
+                    MostraTodosOsChamados(listaIdChamados, listaTitulosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, listaIdDoEquipamentoNosChamados);
                     Console.WriteLine("Id de quem deseja deletar;");
                     int idParaDeletar = Convert.ToInt32(Console.ReadLine());
                     for (int i = 0; i < listaIdChamados.Count; i++)
@@ -486,7 +490,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                 if (resposta == "4")
                 {
                     Console.Clear();
-                    DeletaChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, resposta);
+                    DeletaChamados(listaIdChamados, listaTitulosChamados, listaIdDoEquipamentoNosChamados, listaDataAberturaChamados, listaDescricaoChamados, listaNomeEquipamento, listaIdEquipamentos, resposta);
                     resposta = "";
                     continue;
                 }
