@@ -11,7 +11,7 @@ namespace TrabalhosDoJunior.ConsoleApp
         static string nomeEquipamento = "";
         static string fabricanteEquipamento = "";
         static int idEquipamentos = 0;
-        static int numeroDeSerieEquipamento = 0;
+        static string numeroDeSerieEquipamento = "";
         static double precoEquipamento = 0;
         static DateTime dataFabricacaoEquipamento = DateTime.UtcNow;
 
@@ -126,19 +126,34 @@ namespace TrabalhosDoJunior.ConsoleApp
                 else
                 {
                     MostraTodosOsEquipamentos();
-                    Console.WriteLine("Id de quem deseja deletar;");
+                    Console.WriteLine("Id de quem deseja deletar: ");
                     int idParaDeletar = Convert.ToInt32(Console.ReadLine());
+                    bool IdExiste = false;
                     for (int i = 0; i < listaIdEquipamentos.Count; i++)
                     {
                         if (listaIdEquipamentos[i].Equals(idParaDeletar))
                         {
-                            RemoveDasListasEquipamentos(i);
+                            for (int j = 0; j < listaIdDoEquipamentoNosChamados.Count; j++)
+                            {
+                                if (listaIdEquipamentos[j] == listaIdDoEquipamentoNosChamados[i])
+                                {
+                                    Console.WriteLine("Equipamento possui chamado cadastrado");
+                                    continue;
+                                }
+                                else
+                                {
+                                    RemoveDasListasEquipamentos(i);
+                                    IdExiste = true;
+                                }
+                                
+                            }
 
-                        }
-                        else
-                        {
-                            MensagemDeErro("Id Inválido");
-                        }
+                        }                        
+                        
+                    }
+                    if (IdExiste == false)
+                    {
+                        MensagemDeErro("Id nao existe...");
                     }
                 }
                 Console.Write("Sair: ");
@@ -235,12 +250,12 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
             else
             {
-                Console.WriteLine(" Id  | Nome do Equipamento  | Preço do Equipamento: | Data da fabricação | Número de série | Fabricante do Equipamento");
+                Console.WriteLine(" {0,-3} | {1,-20} | {2,-15} | {3,-17} | {4,-15} | {5,-20}", "Id","Nome do Equipamento","Preço","Data de Fabricação","Número de Série","Fabricante");
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < listaIdEquipamentos.Count; i++)
                 {
                     DateTime dataModificada = (DateTime)listaDataEquipamentos[i];                 
-                    Console.WriteLine(" {0,-3} | {1,-20} | {2,-21} |  {3,-17} |  {4,-14} | {5,-20}", listaIdEquipamentos[i], listaNomeEquipamentos[i], listaPrecoEquipamentos[i], dataFabricacaoEquipamento.ToString("dd/MM/yyyy"), listaNumeroDeSerieEquipamentos[i], listaFabricanteEquipamentos[i]);
+                    Console.WriteLine(" {0,-3} | {1,-20} | {2,-15} | {3,-18} | {4,-15} | {5,-20} ", listaIdEquipamentos[i], listaNomeEquipamentos[i], listaPrecoEquipamentos[i], dataFabricacaoEquipamento.ToString("dd/MM/yyyy"), listaNumeroDeSerieEquipamentos[i], listaFabricanteEquipamentos[i]);
                 }
             }
             Console.ReadKey();
@@ -274,7 +289,7 @@ namespace TrabalhosDoJunior.ConsoleApp
             Console.Write("Preço: ");
             precoEquipamento = Convert.ToDouble(Console.ReadLine());
             Console.Write("Numero de Serie: ");
-            numeroDeSerieEquipamento = Convert.ToInt32(Console.ReadLine());
+            numeroDeSerieEquipamento = Console.ReadLine();
             Console.Write("Data de fabricação: ");
             dataFabricacaoEquipamento = Convert.ToDateTime(Console.ReadLine());
             Console.Write("Fabricante: ");
@@ -300,6 +315,7 @@ namespace TrabalhosDoJunior.ConsoleApp
         {
             while (resposta.ToUpper() != "S")
             {
+                MostraTodosOsEquipamentos();
                 PegadadosDoUsuarioChamados();
                 AdicionaNasListasChamados();
                 MostraSucessoAoUsuarioChamados("Adicionado com Sucesso!");
@@ -342,8 +358,8 @@ namespace TrabalhosDoJunior.ConsoleApp
             }
             else
             {
-                Console.WriteLine(" Id  | Titulo     | Equipamento           | Data de Abertura | Descrição             | Dias Abertos");
-                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine(" {0,-3} | {1,-24} | {2,-21} |  {3,-20} |  {4,-50} | {5,-20}", "Id", "Título","Equipamento","Data de Abertura" , "Descrição","Dias Abertos");
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < listaIdChamados.Count; i++)
                 {
                     for (int j = 0; j < listaIdEquipamentos.Count; j++)
@@ -356,7 +372,7 @@ namespace TrabalhosDoJunior.ConsoleApp
                     TimeSpan diasAbertos = new TimeSpan();
                     DateTime dataModificada = (DateTime)listaDataAberturaChamados[i];
                     diasAbertos = DateTime.UtcNow - dataModificada;
-                    Console.WriteLine(" {0,-3} | {1,-10} | {2,-21} |  {3,-15} |  {4,-20} | {5,-20}", listaIdChamados[i] , listaTitulosChamados[i] ,nomeEquipamentoDoChamado, dataModificada.ToString("dd / MM / yyyy") , listaDescricaoChamados[i], diasAbertos.Days); 
+                    Console.WriteLine(" {0,-3} | {1,-24} | {2,-21} |  {3,-20} |  {4,-50} | {5,-20}", listaIdChamados[i] , listaTitulosChamados[i] ,nomeEquipamentoDoChamado, dataModificada.ToString("dd / MM / yyyy") , listaDescricaoChamados[i], diasAbertos.Days); 
                 }
 
             }
